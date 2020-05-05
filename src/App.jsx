@@ -6,7 +6,6 @@ import Container from "@material-ui/core/Container";
 import NoSsr from "@material-ui/core/NoSsr";
 
 import Home from "./pages/Home";
-import Categories from "./pages/Categories";
 import Trivia from "./pages/Trivia";
 import NotFound from "./pages/NotFound";
 import Question from "./components/Question";
@@ -30,9 +29,8 @@ function App() {
         <Container className={classes.container} maxWidth="sm">
           <Router>
             <Home path="/" />
-            <Categories path="categories" />
             <Trivia path="trivia/:triviaId/">
-              <Question path="category/:categoryId/question/:questionId" />
+              <Question path="question/:questionId" />
               <Score path="score" />
             </Trivia>
             <NotFound default />
