@@ -1,11 +1,4 @@
-import {
-  RestSerializer,
-  Server,
-  Model,
-  Factory,
-  belongsTo,
-  hasMany,
-} from "miragejs";
+import { RestSerializer, Server, Model, Factory, hasMany } from "miragejs";
 import faker from "faker";
 
 function getRandomInt(max) {
@@ -24,24 +17,13 @@ export function makeServer({ environment }) {
     environment,
 
     models: {
-      category: Model,
-      question: Model.extend({
-        category: belongsTo(),
-      }),
+      question: Model,
       trivia: Model.extend({
         questions: hasMany(),
       }),
     },
 
     factories: {
-      category: Factory.extend({
-        name(i) {
-          const genre = faker.random.arrayElement(categoryGenres);
-          const title = faker.lorem.words(2);
-          return `${genre}: ${title}`;
-        },
-      }),
-
       question: Factory.extend({
         type: "boolean",
         difficulty() {
@@ -53,14 +35,16 @@ export function makeServer({ environment }) {
         correctAnswer() {
           return faker.random.boolean();
         },
+        category() {
+          const genre = faker.random.arrayElement(categoryGenres);
+          const title = faker.lorem.words(2);
+          return `${genre}: ${title}`;
+        },
       }),
     },
 
     serializers: {
       application: RestSerializer,
-      question: RestSerializer.extend({
-        include: ["category"],
-      }),
       trivia: RestSerializer.extend({
         include: ["questions"],
       }),
@@ -68,9 +52,7 @@ export function makeServer({ environment }) {
 
     seeds(server) {
       // Seeds the DB with 60 questions
-      server.createList("category", 6).forEach((category) => {
-        server.createList("question", 10, { category });
-      });
+      server.createList("question", 60);
 
       console.log(server.db.dump());
     },
@@ -88,7 +70,8 @@ export function makeServer({ environment }) {
         const allQuestions = schema.questions.all();
         const questions = [];
         while (questions.length < QUESTIONS_IN_TRIVIA) {
-          const idx = getRandomInt(allQuestions.length);
+          // Ids are 1-based
+          const idx = getRandomInt(allQuestions.length) + 1;
           if (questions.indexOf(idx) === -1) {
             questions.push(idx);
           }
