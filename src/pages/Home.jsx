@@ -1,9 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { useNavigate } from "@reach/router";
 import Typography from "@material-ui/core/Typography";
 
+import { NEW_TRIVIA_ID } from "./Trivia";
 import ButtonPrimary from "../components/ButtonPrimary";
-import { createTrivia } from "../utils/api";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -31,8 +32,9 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Home = (props) => {
+const Home = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
   return (
     <div className={classes.container}>
       <header className={classes.header}>
@@ -49,7 +51,9 @@ const Home = (props) => {
         </div>
       </main>
       <footer className={classes.footer}>
-        <ButtonPrimary onClick={createTrivia}>Begin</ButtonPrimary>
+        <ButtonPrimary onClick={() => navigate(`/trivia/${NEW_TRIVIA_ID}`)}>
+          Begin
+        </ButtonPrimary>
       </footer>
     </div>
   );

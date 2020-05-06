@@ -19,15 +19,19 @@ async function request(endpoint, { body, method, ...customConfig } = {}) {
 
   const response = await fetch(url, config);
   response.ok = response.status >= 200 && response.status < 300;
-  response.data = JSON.parse(response._bodyText);
   return response;
 }
 
 async function createTrivia() {
   const response = await request(`trivias`, { method: "POST" });
   if (!response.ok) throw new Error(response.statusText);
-  console.log(response);
-  return response;
+  return response.json();
 }
 
-export { request, createTrivia };
+async function getTrivia(id) {
+  const response = await request(`trivias/${id}`);
+  if (!response.ok) throw new Error(response.statusText);
+  return response.json();
+}
+
+export { request, createTrivia, getTrivia };

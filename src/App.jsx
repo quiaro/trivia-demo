@@ -5,11 +5,10 @@ import { ThemeProvider } from "@material-ui/styles";
 import Container from "@material-ui/core/Container";
 import NoSsr from "@material-ui/core/NoSsr";
 
+import { TriviaContextProvider } from "./context/trivia-context";
 import Home from "./pages/Home";
-import Trivia from "./pages/Trivia";
 import NotFound from "./pages/NotFound";
-import Question from "./components/Question";
-import Score from "./components/Score";
+import Trivia from "./pages/Trivia";
 
 import "typeface-roboto";
 import "./styles/base.css";
@@ -27,14 +26,13 @@ function App() {
     <NoSsr>
       <ThemeProvider theme={appTheme}>
         <Container className={classes.container} maxWidth="sm">
-          <Router>
-            <Home path="/" />
-            <Trivia path="trivia/:triviaId/">
-              <Question path="question/:questionId" />
-              <Score path="score" />
-            </Trivia>
-            <NotFound default />
-          </Router>
+          <TriviaContextProvider>
+            <Router>
+              <Home path="/" />
+              <Trivia path="trivia/:triviaId/" />
+              <NotFound default />
+            </Router>
+          </TriviaContextProvider>
         </Container>
       </ThemeProvider>
     </NoSsr>
