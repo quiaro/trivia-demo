@@ -1,9 +1,9 @@
 import React from "react";
-import { Link } from "@reach/router";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 
 import ButtonPrimary from "../components/ButtonPrimary";
+import { createTrivia } from "../utils/api";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -49,9 +49,7 @@ const Home = (props) => {
         </div>
       </main>
       <footer className={classes.footer}>
-        <ButtonPrimary component={Link} to="/categories">
-          Begin
-        </ButtonPrimary>
+        <ButtonPrimary onClick={createTrivia}>Begin</ButtonPrimary>
       </footer>
     </div>
   );

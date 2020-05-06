@@ -1,7 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { makeServer } from "./mocks/server";
 import App from "./App.jsx";
 import * as serviceWorker from "./serviceWorker";
+
+if (process.env.NODE_ENV !== "production") {
+  makeServer({ environment: process.env.NODE_ENV });
+}
 
 ReactDOM.render(
   <React.StrictMode>

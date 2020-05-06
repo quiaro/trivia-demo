@@ -15,7 +15,7 @@ import "typeface-roboto";
 import "./styles/base.css";
 import appTheme, { defaultTheme } from "./styles/theme";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   container: {
     backgroundColor: defaultTheme.app.backgroundColor,
   },
