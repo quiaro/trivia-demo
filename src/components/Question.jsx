@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
+import MobileStepper from "@material-ui/core/MobileStepper";
 import Typography from "@material-ui/core/Typography";
 
 import { useTriviaContext } from "../context/trivia-context";
@@ -40,12 +41,19 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 3),
     justifyContent: "space-between",
   },
+  dot: {
+    width: "1rem",
+    height: "1rem",
+  },
   footer: {
     flex: 1,
   },
+  stepper: {
+    padding: theme.spacing(2),
+  },
 }));
 
-const Question = ({ question }) => {
+const Question = ({ question, total, index }) => {
   const { dispatch } = useTriviaContext();
   const classes = useStyles();
 
@@ -83,7 +91,23 @@ const Question = ({ question }) => {
           </CardActions>
         </Card>
       </main>
-      <footer className={classes.footer}>This is the footer</footer>
+      <footer className={classes.footer}>
+        <MobileStepper
+          classes={{ root: classes.stepper, dot: classes.dot }}
+          variant="dots"
+          steps={total}
+          position="static"
+          activeStep={index}
+        />
+        <Typography
+          variant="body1"
+          component="span"
+          display="block"
+          align="center"
+        >
+          {index + 1} of {total}
+        </Typography>
+      </footer>
     </div>
   );
 };

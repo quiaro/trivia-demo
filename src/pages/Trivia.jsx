@@ -74,7 +74,13 @@ const Trivia = ({ triviaId }) => {
     return <Score questions={state.questions} answers={state.answers} />;
   }
 
-  return <Question question={state.questions[state.current]} />;
+  return (
+    <Question
+      question={state.questions[state.current]}
+      total={state.questions.length}
+      index={state.current}
+    />
+  );
 };
 
 export default Trivia;

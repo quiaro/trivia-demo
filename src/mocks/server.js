@@ -116,7 +116,7 @@ export function makeServer({ environment }) {
         let newAttrs = JSON.parse(request.requestBody);
 
         let id = request.params.id;
-        return schema.trivia.find(id).update(newAttrs);
+        return schema.trivias.find(id).update(newAttrs);
       });
     },
   });
