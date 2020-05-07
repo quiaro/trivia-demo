@@ -32,6 +32,9 @@ export const defaultTheme = {
     body2: {
       fontSize: "1.4rem",
     },
+    caption: {
+      fontSize: "1.2rem",
+    },
   },
   overrides: {
     MuiButton: {

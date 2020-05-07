@@ -105,7 +105,7 @@ export function makeServer({ environment }) {
             questions.push(idx);
           }
         }
-        const trivia = schema.trivia.create({
+        const trivia = schema.trivias.create({
           questions: schema.questions.find(questions),
           answers: [],
         });

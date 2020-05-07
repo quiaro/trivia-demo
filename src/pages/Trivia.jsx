@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Redirect } from "@reach/router";
-import { useTriviaContext } from "../context/trivia-context";
 import Typography from "@material-ui/core/Typography";
 
+import { useTriviaContext } from "../context/trivia-context";
 import Question from "../components/Question";
 import Score from "../components/Score";
 import Loading from "../components/Loading";
