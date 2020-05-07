@@ -64,7 +64,10 @@ const Question = ({ question, total, index }) => {
       </header>
       <main className={classes.main}>
         <Card className={classes.card} variant="outlined">
-          <CardContent classes={{ root: classes.cardContent }}>
+          <CardContent
+            data-cy="question"
+            classes={{ root: classes.cardContent }}
+          >
             <Typography variant="body1" paragraph>
               {question.text}
             </Typography>
@@ -105,7 +108,8 @@ const Question = ({ question, total, index }) => {
           display="block"
           align="center"
         >
-          {index + 1} of {total}
+          <span data-cy="step-index">{index + 1}</span> of{" "}
+          <span data-cy="step-total">{total}</span>
         </Typography>
       </footer>
     </div>

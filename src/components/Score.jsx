@@ -75,12 +75,16 @@ const Score = ({ questions, answers }) => {
           display="block"
           align="center"
         >
-          {score} / {questions.length}
+          <span data-cy="answers-correct">{score}</span> /{" "}
+          <span data-cy="answers-total">{questions.length}</span>
         </Typography>
       </header>
       <main className={classes.main}>
         <Card className={classes.card} variant="outlined">
-          <CardContent classes={{ root: classes.cardContent }}>
+          <CardContent
+            data-cy="results"
+            classes={{ root: classes.cardContent }}
+          >
             {results.map((result) => (
               <QuestionResult key={result.id} question={result} />
             ))}

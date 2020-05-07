@@ -17,14 +17,16 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-const QUESTIONS_IN_TRIVIA = 10;
 const categoryGenres = ["Music", "Entertainment", "Sports"];
 const difficultyLevels = ["easy", "normal", "hard"];
+
+export const QUESTIONS_IN_TRIVIA = 10;
+export const TOTAL_QUESTIONS = QUESTIONS_IN_TRIVIA * 5;
 
 // Setting faker seed to get consistent results
 faker.seed(5021982);
 
-export function makeServer({ environment }) {
+export function makeServer({ environment = "development" }) {
   return new Server({
     environment,
 
@@ -74,7 +76,7 @@ export function makeServer({ environment }) {
 
     seeds(server) {
       // Seeds the DB with questions
-      server.createList("question", 30);
+      server.createList("question", TOTAL_QUESTIONS);
 
       // Seeds the DB with an incomplete game (no answers)
       server.create("trivia", {

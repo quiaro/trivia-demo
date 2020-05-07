@@ -1,11 +1,33 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { makeServer } from "./mocks/server";
+import { Server, Response } from "miragejs";
 import App from "./App.jsx";
 import * as serviceWorker from "./serviceWorker";
 
 if (process.env.NODE_ENV !== "production") {
-  makeServer({ environment: process.env.NODE_ENV });
+  // Proxy your app's network requests
+  // https://miragejs.com/quickstarts/cypress/#step-4-proxy-your-apps-network-requests
+  if (window.Cypress) {
+    new Server({
+      environment: "test",
+      routes() {
+        let methods = ["get", "put", "patch", "post", "delete"];
+        methods.forEach((method) => {
+          this[method]("/*", async (schema, request) => {
+            let [status, headers, body] = await window.handleFromCypress(
+              request
+            );
+            return new Response(status, headers, body);
+          });
+        });
+      },
+    });
+  } else {
+    makeServer({
+      environment: process.env.NODE_ENV,
+    });
+  }
 }
 
 ReactDOM.render(
