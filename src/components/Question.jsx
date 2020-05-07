@@ -5,6 +5,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 
+import { useTriviaContext } from "../context/trivia-context";
 import ButtonSecondary from "./ButtonsSecondary";
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +46,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Question = ({ question }) => {
+  const { dispatch } = useTriviaContext();
   const classes = useStyles();
+
   return (
     <div className={classes.container}>
       <header className={classes.header}>
@@ -59,10 +62,22 @@ const Question = ({ question }) => {
             </Typography>
           </CardContent>
           <CardActions classes={{ root: classes.cardActions }}>
-            <ButtonSecondary color="#8e24aa" size="large">
+            <ButtonSecondary
+              color="#8e24aa"
+              size="large"
+              onClick={() =>
+                dispatch({ type: "answer_question", payload: true })
+              }
+            >
               True
             </ButtonSecondary>
-            <ButtonSecondary color="#303f9f" size="large">
+            <ButtonSecondary
+              color="#303f9f"
+              size="large"
+              onClick={() =>
+                dispatch({ type: "answer_question", payload: false })
+              }
+            >
               False
             </ButtonSecondary>
           </CardActions>

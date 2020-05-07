@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useReducer } from "react";
-import { createTrivia, getTrivia } from "../utils/api";
+import { createTrivia, getTrivia, updateTrivia } from "../utils/api";
 
 const TriviaContext = React.createContext();
 
@@ -20,10 +20,17 @@ function TriviaContextProvider(props) {
     (state, action) => {
       switch (action.type) {
         case "answer_question":
+          const nextQuestionIdx = state.current + 1;
+          const allAnswers = [...state.answers, action.payload];
+
+          if (nextQuestionIdx === state.questions.length) {
+            // Save all answers in the server
+            updateTrivia(state.triviaId, allAnswers);
+          }
           return {
             ...state,
-            answers: state.answers.push(action.payload),
-            current: state.current + 1,
+            answers: allAnswers,
+            current: nextQuestionIdx,
           };
         case "create_trivia":
           if (!state.isLoading) {
@@ -50,7 +57,12 @@ function TriviaContextProvider(props) {
           if (!state.isLoading) {
             getTrivia(action.payload)
               .then((data) => {
-                dispatch({ type: "start_trivia", payload: data });
+                if (!data) {
+                  const error = new ReferenceError("Trivia game not found");
+                  dispatch({ type: "error", payload: error });
+                } else {
+                  dispatch({ type: "start_trivia", payload: data });
+                }
               })
               .catch((error) => {
                 dispatch({ type: "error", payload: error });

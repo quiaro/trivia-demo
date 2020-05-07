@@ -1,5 +1,17 @@
-import { RestSerializer, Server, Model, Factory, hasMany } from "miragejs";
+import { inflections } from "inflected";
+import {
+  RestSerializer,
+  Server,
+  Model,
+  Factory,
+  hasMany,
+  trait,
+} from "miragejs";
 import faker from "faker";
+
+inflections("en", function (inflect) {
+  inflect.irregular("trivia", "trivias");
+});
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
@@ -41,6 +53,16 @@ export function makeServer({ environment }) {
           return `${genre}: ${title}`;
         },
       }),
+      trivia: Factory.extend({
+        answers: [],
+
+        withAnswers: trait({
+          answers() {
+            const array = new Array(QUESTIONS_IN_TRIVIA);
+            return array.fill(true);
+          },
+        }),
+      }),
     },
 
     serializers: {
@@ -51,10 +73,16 @@ export function makeServer({ environment }) {
     },
 
     seeds(server) {
-      // Seeds the DB with 60 questions
-      server.createList("question", 60);
+      // Seeds the DB with questions
+      server.createList("question", 30);
 
-      console.log(server.db.dump());
+      // Seeds the DB with an incomplete game (no answers)
+      server.create("trivia", {
+        questions: server.createList("question", QUESTIONS_IN_TRIVIA),
+      });
+      server.create("trivia", "withAnswers", {
+        questions: server.createList("question", QUESTIONS_IN_TRIVIA),
+      });
     },
 
     routes() {
@@ -73,6 +101,7 @@ export function makeServer({ environment }) {
           // Ids are 1-based
           const idx = getRandomInt(allQuestions.length) + 1;
           if (questions.indexOf(idx) === -1) {
+            // Do not repeat questions
             questions.push(idx);
           }
         }
@@ -85,10 +114,9 @@ export function makeServer({ environment }) {
 
       this.patch("/trivias/:id", (schema, request) => {
         let newAttrs = JSON.parse(request.requestBody);
-        let id = request.params.id;
-        let trivia = schema.movies.find(id);
 
-        return trivia.update(newAttrs);
+        let id = request.params.id;
+        return schema.trivia.find(id).update(newAttrs);
       });
     },
   });

@@ -14,7 +14,7 @@ async function request(endpoint, { body, method, ...customConfig } = {}) {
     },
   };
   if (body) {
-    config.data = JSON.stringify(body);
+    config.body = JSON.stringify(body);
   }
 
   const response = await fetch(url, config);
@@ -34,4 +34,13 @@ async function getTrivia(id) {
   return response.json();
 }
 
-export { request, createTrivia, getTrivia };
+async function updateTrivia(id, answers) {
+  const response = await request(`trivias/${id}`, {
+    method: "PATCH",
+    body: { answers },
+  });
+  if (!response.ok) throw new Error(response.statusText);
+  return response.json();
+}
+
+export { request, createTrivia, getTrivia, updateTrivia };
