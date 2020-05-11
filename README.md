@@ -24,7 +24,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 ### `yarn run cypress open`
 
-Launches the [Cypress Test Runner](https://docs.cypress.io/guides/core-concepts/test-runner.html) where the app's test suite can be run.
+Launches the [Cypress Test Runner](https://docs.cypress.io/guides/core-concepts/test-runner.html) where the app's test suite can be run. To run the test suite, make sure the local development server is up and running (`yarn start`).
 
 ### `yarn build`
 
