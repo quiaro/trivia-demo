@@ -46,22 +46,20 @@ const Home = () => {
     <div className={classes.container}>
       <header className={classes.header}>
         <Typography variant="h1" align="center">
-          Welcome to the Trivia Challenge
+          Trivia Game
         </Typography>
       </header>
       <main className={classes.main}>
         <div>
           <Typography variant="h2" paragraph>
-            You will be presented with 10 True or False questions.
-          </Typography>
-          <Typography variant="h2" component="span" display="block">
-            Can you score 100%?
+            You will be presented with a list of <b>true</b>/<b>false</b>{" "}
+            questions.
           </Typography>
         </div>
       </main>
       <footer className={classes.footer}>
         <ButtonPrimary onClick={() => navigate(`/trivia/${NEW_TRIVIA_ID}`)}>
-          Begin
+          Start
         </ButtonPrimary>
       </footer>
     </div>
